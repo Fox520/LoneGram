@@ -1,84 +1,204 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:lonegram/components/posts.dart';
 import 'package:lonegram/components/stories.dart';
 import 'package:lonegram/components/titleheader.dart';
 import 'package:lonegram/components/topbar.dart';
+import 'package:lonegram/constants.dart';
+import 'package:lonegram/data_store.dart';
+import 'package:lonegram/models/post.dart';
+import 'package:lonegram/screens/post_detail.dart';
 import 'package:lonegram/size_config.dart';
 
 class Feed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: CurvedNavigationBar(
-        height: 8.45 * SizeConfig.heightMultiplier,
-        backgroundColor: Colors.black45,
-        index: 2,
-        items: <Widget>[
-          Icon(Foundation.home, size: 6.31 * SizeConfig.imageSizeMultiplier),
-          Icon(AntDesign.search1, size: 6.31 * SizeConfig.imageSizeMultiplier),
-          Icon(AntDesign.plus, size: 6.31 * SizeConfig.imageSizeMultiplier),
-          Icon(AntDesign.hearto, size: 6.31 * SizeConfig.imageSizeMultiplier),
-          Icon(Icons.person_outline,
-              size: 6.31 * SizeConfig.imageSizeMultiplier),
-        ],
-        onTap: (index) {
-          //Handle button tap
-        },
-      ),
-      body: SingleChildScrollView(
+    return SafeArea(
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            makeTopBar(),
+            // makeTopBar(),
+            // SizedBox(
+            // height: 1.69 * SizeConfig.heightMultiplier,
+            // ),
+            // makeTitleHeader(),
             SizedBox(
-              height: 1.69 * SizeConfig.heightMultiplier,
+              height: 1.38 * SizeConfig.heightMultiplier,
             ),
-            makeTitleHeader(),
-            SizedBox(
-              height: 3.38 * SizeConfig.heightMultiplier,
+            Container(
+              height: 90,
+              width: MediaQuery.of(context).size.width,
+              // color: Colors.red,
+              margin: EdgeInsets.only(left: mainPaddingSize),
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return storyItem(
+                    hasStory: stories[index].hasStory,
+                    url: stories[index].url,
+                    isOwner: stories[index].isOwner,
+                    username: stories[index].username,
+                  );
+                },
+                itemCount: stories.length,
+                scrollDirection: Axis.horizontal,
+              ),
             ),
-            makeStories(),
             SizedBox(
               height: 5.07 * SizeConfig.heightMultiplier,
             ),
-            Post(
-              "mimo_mokgosi",
-              "https://instagram.fers1-1.fna.fbcdn.net/v/t51.2885-19/s150x150/96629687_317363259248944_6631462228379828224_n.jpg?_nc_ht=instagram.fers1-1.fna.fbcdn.net&_nc_ohc=HSdbfgXtOagAX_CVKWh&oh=b51824e4daa994a47f2f2049c5983b50&oe=5F3C353D",
-              "https://instagram.fers1-1.fna.fbcdn.net/v/t51.2885-15/e35/s1080x1080/89090303_138038607715723_8401095474178156112_n.jpg?_nc_ht=instagram.fers1-1.fna.fbcdn.net&_nc_cat=107&_nc_ohc=OqwMq_qucsUAX_XSE5N&oh=3924f77a8852adab9e2ecb6e6aaa089f&oe=5F3EE1C2",
-              "Even Angels take a break❤️",
-              "13,096",
-              "150",
-              false,
-            ),
-            Post(
-              "lonecat1911",
-              "https://instagram.fers1-1.fna.fbcdn.net/v/t51.2885-15/sh0.08/e35/p750x750/89091174_117864919811218_7846069052407880774_n.jpg?_nc_ht=instagram.fers1-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=DXmNVllwNtIAX9l6TEl&oh=e62ec3a35335a6bbbc8cbec645478e5a&oe=5F3CE1A4",
-              "https://instagram.fers1-1.fna.fbcdn.net/v/t51.2885-15/sh0.08/e35/s750x750/59704462_147668999611077_2492258082556344793_n.jpg?_nc_ht=instagram.fers1-1.fna.fbcdn.net&_nc_cat=109&_nc_ohc=qv1q93B8UAcAX_Zo3EE&oh=7c773df505f6e8385ca741515e799837&oe=5F3EE566",
-              "A picture is worth a thousand words 🤗",
-              "2,420",
-              "451",
-              false,
-            ),
-            Post(
-                "rita_aibes_jeniva",
-                "https://instagram.fers1-1.fna.fbcdn.net/v/t51.2885-19/s150x150/97613092_2624890791166391_152715610977992704_n.jpg?_nc_ht=instagram.fers1-1.fna.fbcdn.net&_nc_ohc=9QptPMEhvxcAX8NrpCi&oh=5d2cc05cdf88f04186deef75513596b0&oe=5F3C55E6",
-                "https://instagram.fers1-1.fna.fbcdn.net/v/t51.2885-15/e35/100951092_268182647878971_4235936072268235881_n.jpg?_nc_ht=instagram.fers1-1.fna.fbcdn.net&_nc_cat=103&_nc_ohc=JKpANTPosagAX_f0cLb&oh=8e7a3057201171fc491eb5d3ce4da67d&oe=5F3D6BE1",
-                "Positivity 💯",
-                "769",
-                "69",
-                true),
-            Post(
-              "ygk_na",
-              "https://instagram.fers1-1.fna.fbcdn.net/v/t51.2885-19/s150x150/91197652_2929151540472371_3341848425917317120_n.jpg?_nc_ht=instagram.fers1-1.fna.fbcdn.net&_nc_ohc=IuVl7Np7qzIAX84IdvS&oh=d715eb4fcc495e30f90fbf02337300f2&oe=5F3EB8DC",
-              "https://instagram.fers1-1.fna.fbcdn.net/v/t51.2885-15/e35/98504885_593432387941799_5456031536486861720_n.jpg?_nc_ht=instagram.fers1-1.fna.fbcdn.net&_nc_cat=111&_nc_ohc=bLa2c6VC4f4AX_WxCvy&oh=468423629b45d05e4ad6232e8f2b576d&oe=5F3CA75E",
-              "I'll be dropping a 3 track Amapiano Ep in the next few days🎹. Title: Threesome",
-              "3,084",
-              "420",
-              true,
-            ),
+            for (var currentPost in posts)
+              Container(
+                // height: 500,
+                width: double.infinity,
+                margin: EdgeInsets.symmetric(horizontal: mainPaddingSize),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    postHead(currentPost.userName, currentPost.userUrl,
+                        currentPost.hasPost),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    buildPostImage(context, currentPost),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    belowImageOptions(currentPost.likes, currentPost.comments),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    postCaption(currentPost.userName, currentPost.caption),
+                  ],
+                ),
+              ),
           ],
+        ),
+      ),
+    );
+  }
+
+  buildPostImage(BuildContext context, Post p) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PostDetail(p.userName, p.userUrl, p.postUrl,
+                  p.likes, p.comments, p.hasPost)),
+        );
+      },
+      child: Container(
+        height: 50.68 * SizeConfig.heightMultiplier,
+        width: double.infinity,
+        margin: EdgeInsets.symmetric(horizontal: 5),
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey,
+              spreadRadius: 2,
+              blurRadius: 7,
+              offset: Offset(0, 3),
+            )
+          ],
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          image: DecorationImage(
+            image: NetworkImage(p.postUrl),
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
+
+  belowImageOptions(String likes, String comments) {
+    return Row(
+      children: [
+        Icon(AntDesign.hearto),
+        SizedBox(
+          width: 5,
+        ),
+        Text(
+          likes,
+          style: TextStyle(color: Colors.black87),
+        ),
+        SizedBox(
+          width: 20,
+        ),
+        Icon(MaterialCommunityIcons.comment_outline),
+        SizedBox(
+          width: 5,
+        ),
+        Text(
+          comments,
+          style: TextStyle(color: Colors.black87),
+        ),
+        Spacer(),
+        Icon(Feather.bookmark),
+      ],
+    );
+  }
+
+  postCaption(String username, String caption) {
+    return Container(
+      height: 50,
+      child: Wrap(
+        children: [
+          RichText(
+            text: TextSpan(
+              text: username,
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+              children: <TextSpan>[
+                TextSpan(
+                    text: "  $caption",
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                    )),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  postHead(String username, String url, bool hasStory) {
+    return Row(
+      children: [
+        postAvatar(url, hasStory),
+        SizedBox(
+          width: 2.78 * SizeConfig.widthMultiplier,
+        ),
+        Text(
+          username,
+          style: TextStyle(
+              fontSize: 2.73 * SizeConfig.textMultiplier,
+              fontWeight: FontWeight.w500),
+        ),
+        Spacer(),
+        Icon(SimpleLineIcons.options),
+      ],
+    );
+  }
+
+  postAvatar(String url, bool hasStory) {
+    return Container(
+      height: 6.76 * SizeConfig.heightMultiplier,
+      width: 11.1 * SizeConfig.widthMultiplier,
+      // margin: EdgeInsets.only(left: mainPaddingSize),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(colors: [
+          Colors.red,
+          Colors.purple,
+        ]),
+        borderRadius: BorderRadius.circular(45),
+      ),
+      child: Container(
+        margin:
+            hasStory ? EdgeInsets.all(0.83 * SizeConfig.widthMultiplier) : null,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(45),
+          image: DecorationImage(image: NetworkImage(url), fit: BoxFit.cover),
         ),
       ),
     );

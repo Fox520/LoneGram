@@ -4,6 +4,38 @@ import 'package:lonegram/size_config.dart';
 
 import '../constants.dart';
 
+Stack trailingFeed() {
+  return Stack(
+    overflow: Overflow.visible,
+    children: [
+      Container(
+        height: 8.3 * SizeConfig.imageSizeMultiplier,
+        width: 8.3 * SizeConfig.imageSizeMultiplier,
+        child: Image.network(
+          "https://static.thenounproject.com/png/3084968-200.png",
+          color: Colors.blue,
+        ),
+      ),
+      Positioned(
+        top: -1.69 * SizeConfig.heightMultiplier,
+        right: -1.39 * SizeConfig.widthMultiplier,
+        child: Container(
+          height: 20,
+          width: 20,
+          child: Center(
+            child: CircleAvatar(
+                backgroundColor: Colors.red,
+                child: Text(
+                  "5",
+                  style: TextStyle(color: Colors.white),
+                )),
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
 makeTopBar() {
   return Container(
     margin: EdgeInsets.only(top: 6.76 * SizeConfig.heightMultiplier),
