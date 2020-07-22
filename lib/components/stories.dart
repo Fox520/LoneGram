@@ -24,85 +24,46 @@ makeStories() {
       ));
 }
 
-Container storyItem(
-    {bool hasStory, String url, bool isOwner = false, String username}) {
+storyItem({bool hasStory, String url, bool isOwner = false, String username}) {
   return Container(
-    margin: EdgeInsets.only(right: 20),
+    width: 19.4 * SizeConfig.widthMultiplier,
+    margin: EdgeInsets.only(top: 5, right: 15, bottom: 5),
+    decoration: BoxDecoration(
+      gradient: LinearGradient(colors: [
+        Colors.red,
+        Colors.purple,
+      ]),
+      borderRadius: BorderRadius.circular(45),
+    ),
     child: Stack(
+      // overflow: Overflow.visible,
       children: [
         Container(
-          height: 70,
-          width: 19.4 * SizeConfig.widthMultiplier,
-          // margin: EdgeInsets.only(top: 5, right: 15, bottom: 5),
+          margin: hasStory
+              ? EdgeInsets.all(0.83 * SizeConfig.widthMultiplier)
+              : null,
           decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-              Colors.red,
-              Colors.purple,
-            ]),
             borderRadius: BorderRadius.circular(45),
-          ),
-          child: Container(
-            height: 70,
-            width: 19.4 * SizeConfig.widthMultiplier,
-            margin: hasStory
-                ? EdgeInsets.all(0.83 * SizeConfig.widthMultiplier)
-                : null,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(45),
-              image:
-                  DecorationImage(image: NetworkImage(url), fit: BoxFit.cover),
-            ),
+            image: DecorationImage(image: NetworkImage(url), fit: BoxFit.cover),
           ),
         ),
+        isOwner
+            ? Positioned(
+                bottom: 0,
+                right: 0.56 * SizeConfig.widthMultiplier,
+                child: addStoryIcon(),
+              )
+            : Container(),
         Positioned(
           bottom: 0,
-          child: Text(username),
+          child: Text(
+            username,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
       ],
     ),
   );
-  // return Container(
-  //   height: 40,
-  //   width: 19.4 * SizeConfig.widthMultiplier,
-  //   // margin: EdgeInsets.only(top: 5, right: 15, bottom: 5),
-  //   decoration: BoxDecoration(
-  //     gradient: LinearGradient(colors: [
-  //       Colors.red,
-  //       Colors.purple,
-  //     ]),
-  //     borderRadius: BorderRadius.circular(45),
-  //   ),
-  // );
-
-  //   child: Stack(
-  //     // overflow: Overflow.visible,
-  //     children: [
-  // Container(
-  //   margin: hasStory
-  //       ? EdgeInsets.all(0.83 * SizeConfig.widthMultiplier)
-  //       : null,
-  //   decoration: BoxDecoration(
-  //     borderRadius: BorderRadius.circular(45),
-  //     image: DecorationImage(image: NetworkImage(url), fit: BoxFit.cover),
-  //   ),
-  // ),
-  //       isOwner
-  //           ? Positioned(
-  //               bottom: 0,
-  //               right: 0.56 * SizeConfig.widthMultiplier,
-  //               child: addStoryIcon(),
-  //             )
-  //           : Container(),
-  //       Positioned(
-  //         bottom: 0,
-  //         child: Text(
-  //           username,
-  //           overflow: TextOverflow.ellipsis,
-  //         ),
-  //       ),
-  //     ],
-  //   ),
-  // );
 }
 
 addStoryIcon() {
