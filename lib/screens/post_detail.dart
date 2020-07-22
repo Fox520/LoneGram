@@ -107,33 +107,22 @@ class PostDetail extends StatelessWidget {
         GestureDetector(
             onTap: () => Navigator.pop(context),
             child: Icon(Icons.chevron_left)),
-        Container(
-          height: 6.76 * SizeConfig.heightMultiplier,
-          width: 11.1 * SizeConfig.widthMultiplier,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-              Colors.red,
-              Colors.purple,
-            ]),
-            borderRadius: BorderRadius.circular(45),
-          ),
-          child: Container(
-            margin: hasStory
-                ? EdgeInsets.all(0.83 * SizeConfig.widthMultiplier)
-                : null,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(45),
-              image: DecorationImage(
-                  image: NetworkImage(userUrl), fit: BoxFit.cover),
-            ),
+        CircleAvatar(
+          radius: 25,
+          backgroundColor: hasStory ? Colors.redAccent : Colors.grey[400],
+          child: CircleAvatar(
+            radius: 20,
+            backgroundImage: NetworkImage(userUrl),
           ),
         ),
-        Text("@$userName",
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              fontSize: 3.38 * SizeConfig.heightMultiplier,
-            )),
+        Text(
+          "@$userName",
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 2.38 * SizeConfig.heightMultiplier,
+          ),
+        ),
         Icon(SimpleLineIcons.options),
       ],
     );

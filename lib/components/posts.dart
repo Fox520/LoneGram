@@ -4,7 +4,7 @@ import 'package:lonegram/constants.dart';
 import 'package:lonegram/screens/post_detail.dart';
 import 'package:lonegram/size_config.dart';
 
-class Post extends StatelessWidget {
+class Post extends StatefulWidget {
   final String userUrl;
   final String postUrl;
   final String userName;
@@ -15,13 +15,20 @@ class Post extends StatelessWidget {
       this.comments, this.hasPost);
 
   @override
+  _PostState createState() => _PostState();
+}
+
+class _PostState extends State<Post> {
+  bool isLiked = false;
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: mainPaddingSize),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          postHead(userName, userUrl, hasPost),
+          postHead(widget.userName, widget.userUrl, widget.hasPost),
           SizedBox(
             height: 15,
           ),
@@ -29,44 +36,34 @@ class Post extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-          belowImageOptions(likes, comments),
+          belowImageOptions(widget.likes, widget.comments),
           SizedBox(
             height: 15,
           ),
-          postCaption(userName, caption),
+          postCaption(widget.userName, widget.caption),
         ],
       ),
     );
   }
 
   buildPostImage(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => PostDetail(
-                  userName, userUrl, postUrl, likes, comments, hasPost)),
-        );
-      },
-      child: Container(
-        height: 50.68 * SizeConfig.heightMultiplier,
-        width: double.infinity,
-        margin: EdgeInsets.symmetric(horizontal: 5),
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey,
-              spreadRadius: 2,
-              blurRadius: 7,
-              offset: Offset(0, 3),
-            )
-          ],
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          image: DecorationImage(
-            image: NetworkImage(postUrl),
-            fit: BoxFit.cover,
-          ),
+    return Container(
+      height: 50.68 * SizeConfig.heightMultiplier,
+      width: double.infinity,
+      margin: EdgeInsets.symmetric(horizontal: 5),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey,
+            spreadRadius: 2,
+            blurRadius: 7,
+            offset: Offset(0, 3),
+          )
+        ],
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        image: DecorationImage(
+          image: NetworkImage(widget.postUrl),
+          fit: BoxFit.cover,
         ),
       ),
     );
@@ -75,7 +72,26 @@ class Post extends StatelessWidget {
   belowImageOptions(String likes, String comments) {
     return Row(
       children: [
-        Icon(AntDesign.hearto),
+        isLiked
+            ? IconButton(
+                icon: Icon(
+                  AntDesign.heart,
+                  color: Colors.red,
+                ),
+                onPressed: () {
+                  setState(() {
+                    isLiked = !isLiked;
+                  });
+                },
+              )
+            : IconButton(
+                icon: Icon(AntDesign.hearto),
+                onPressed: () {
+                  setState(() {
+                    isLiked = !isLiked;
+                  });
+                },
+              ),
         SizedBox(
           width: 5,
         ),
@@ -86,7 +102,21 @@ class Post extends StatelessWidget {
         SizedBox(
           width: 20,
         ),
-        Icon(MaterialCommunityIcons.comment_outline),
+        GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PostDetail(
+                        widget.userName,
+                        widget.userUrl,
+                        widget.postUrl,
+                        widget.likes,
+                        widget.comments,
+                        widget.hasPost)),
+              );
+            },
+            child: Icon(MaterialCommunityIcons.comment_outline)),
         SizedBox(
           width: 5,
         ),
@@ -126,10 +156,18 @@ postCaption(String username, String caption) {
 
 postHead(String username, String url, bool hasStory) {
   return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
-      postAvatar(url, hasStory),
+      CircleAvatar(
+        radius: 25,
+        backgroundColor: hasStory ? Colors.redAccent : Colors.grey[400],
+        child: CircleAvatar(
+          radius: 20,
+          backgroundImage: NetworkImage(url),
+        ),
+      ),
       SizedBox(
-        width: 2.78 * SizeConfig.widthMultiplier,
+        width: 1.78 * SizeConfig.widthMultiplier,
       ),
       Text(
         username,
@@ -140,28 +178,5 @@ postHead(String username, String url, bool hasStory) {
       Spacer(),
       Icon(SimpleLineIcons.options),
     ],
-  );
-}
-
-postAvatar(String url, bool hasStory) {
-  return Container(
-    height: 6.76 * SizeConfig.heightMultiplier,
-    width: 11.1 * SizeConfig.widthMultiplier,
-    // margin: EdgeInsets.only(left: mainPaddingSize),
-    decoration: BoxDecoration(
-      gradient: LinearGradient(colors: [
-        Colors.red,
-        Colors.purple,
-      ]),
-      borderRadius: BorderRadius.circular(45),
-    ),
-    child: Container(
-      margin:
-          hasStory ? EdgeInsets.all(0.83 * SizeConfig.widthMultiplier) : null,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(45),
-        image: DecorationImage(image: NetworkImage(url), fit: BoxFit.cover),
-      ),
-    ),
   );
 }

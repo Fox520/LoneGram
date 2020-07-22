@@ -26,6 +26,43 @@ makeStories() {
 
 storyItem({bool hasStory, String url, bool isOwner = false, String username}) {
   return Container(
+    margin: EdgeInsets.only(right: 15),
+    child: Column(
+      children: [
+        Stack(
+          children: [
+            CircleAvatar(
+              radius: 35,
+              backgroundColor: hasStory ? Colors.redAccent : Colors.grey[400],
+              child: CircleAvatar(
+                radius: 30,
+                backgroundImage: NetworkImage(url),
+              ),
+            ),
+            isOwner
+                ? Positioned(
+                    bottom: 0,
+                    right: 0.56 * SizeConfig.widthMultiplier,
+                    child: addStoryIcon(),
+                  )
+                : Container(),
+          ],
+        ),
+        SizedBox(
+          height: 3,
+        ),
+        Text(
+          username,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(fontWeight: FontWeight.w500),
+        ),
+      ],
+    ),
+  );
+}
+
+storyItem2({bool hasStory, String url, bool isOwner = false, String username}) {
+  return Container(
     width: 19.4 * SizeConfig.widthMultiplier,
     margin: EdgeInsets.only(top: 5, right: 15, bottom: 5),
     decoration: BoxDecoration(

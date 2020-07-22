@@ -1,8 +1,36 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:lonegram/size_config.dart';
 
 import '../constants.dart';
+
+makeTopBarProfile() {
+  return Container(
+    margin: EdgeInsets.only(top: 6.76 * SizeConfig.heightMultiplier),
+    padding: EdgeInsets.symmetric(horizontal: mainPaddingSize),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Icon(
+          Feather.chevron_left,
+          size: 8.3 * SizeConfig.imageSizeMultiplier,
+        ),
+        Text(
+          "Profile",
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
+        ),
+        IconButton(
+          icon: Icon(
+            Feather.menu,
+            size: 8.3 * SizeConfig.imageSizeMultiplier,
+          ),
+          onPressed: null,
+        ),
+      ],
+    ),
+  );
+}
 
 makeTopBar() {
   return Container(
